@@ -1,0 +1,52 @@
+<div class="sidenav">
+    <div class="profile">
+        <div class="det">
+            <div class="pic">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MjR8fHByb2ZpbGV8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60">
+            </div>
+            <h1>Amanda</h1>
+        </div>
+        <!-- <button>Test Your Bot</button> -->
+        <button [ngClass] ="{'training': isTraining==true}" [disabled]="isTraining" (click)="trainBot()">Train Bot</button>
+    </div>
+    <div class="nav" (click)="changePlace($event)">
+        <h1>Bot</h1>
+        <div id="navDecoration"></div>
+        <!-- <div [routerLink]="['/dashboard']" routerLinkActive="is-active2" id="/dashboard">
+            <div class="links">
+                <svg-icon src="../../assets/icons/dashboard.svg"></svg-icon> 
+                <span>Dashboard</span>
+            </div>
+        </div> -->
+        <div [routerLink]="['/chats']" routerLinkActive="is-active2" id="/chats">
+            <div class="links">
+                <svg-icon src="../../assets/icons/chat.svg"></svg-icon> 
+                <span>Chats</span>
+            </div>
+        </div>
+        <div [routerLink]="['/intents']" routerLinkActive="is-active" id="/intents">
+            <div class="links">
+                <svg-icon src="../../assets/icons/intent.svg"></svg-icon> 
+                <span>Intents</span>
+            </div>
+        </div>
+        <div [routerLink]="['/responses']" routerLinkActive="is-active" id="/responses">
+            <div class="links">
+                <svg-icon src="../../assets/icons/response.svg"></svg-icon> 
+                <span>Responses</span>
+            </div>
+        </div>
+        <!-- <NavLink class="is-nonactive2" activeclass='is-active2' to={SLUGS.dashboard.path} id={SLUGS.dashboard.path}>
+            <div class="links">
+                <SVG src={SLUGS.dashboard.logo}></SVG>
+                <span>Dashboard</span>
+            </div>
+        </NavLink> -->
+        <!-- <NavLink class="is-nonactive" activeclass='is-active' style="fill: red" id={SLUGS.intents.path} to={SLUGS.intents.path}>
+            {/* <img src={SLUGS.intents.logo}></img> */}
+            <div class="links"><SVG src={SLUGS.intents.logo}></SVG><span>Intents</span></div>
+        </NavLink> -->
+    </div>
+
+
+</div>

@@ -1,0 +1,84 @@
+<div class="chat-component">
+    <div class="user-div">
+        <div class="search-wrapper">
+            <div class="search-user">
+                <input type="text" placeholder="Search">
+            </div>
+        </div>
+        <div class="user-wrapper">
+            <!-- <div class="user active">
+                <div class="name-display-div">
+                    <div class="leftBrdr bg-0"></div>
+                    <div class="name-div bg-0 bx-shadow-0">
+                        A
+                    </div>
+                </div>
+                <div class="user-chat-div">
+                    <h5>Arun Mukati</h5>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti obcaecati aliquam reiciendis
+                        dignissimos, pariatur accusamus voluptatibus dolores deserunt porro! Magni.</p>
+                </div>
+            </div> -->
+            <div class="user" *ngFor="let item of users;let i=index" [ngClass]="{'active': userIndex==i }"  key={i} (click)="setUserActive(item,i)">
+                <div class="name-display-div">
+                    <div class="leftBrdr bg-{{i%5}}" ></div>
+                    <div class="name-div bg-{{i%5}} bx-shadow-{{i%5}}">
+                        {{getFirstCharOfName(item.name)}}
+                        <span *ngIf = "item.newMsg">{{item.newMsg}}</span>
+                    </div>
+                </div>
+                <div class="user-chat-div">
+                    <h5>{{item.name ? item.name : 'New User'}}  </h5>
+                    <!-- <p>{{item.chats ? item.chats[0].text : ''}}</p> -->
+                </div>
+                <!-- <div class="detail"></div> -->
+            </div>
+        </div>
+
+    </div>
+    <div *ngIf="users[userIndex]" class="chat-area">
+        <div class="user-detail">
+            <div class="name-div bg-0 bx-shadow-0">
+                {{ users[userIndex].name ? getFirstCharOfName(users[userIndex].name) : '0' }}
+            </div>
+            <h5>{{ users[userIndex].name ? users[userIndex].name : 'New User'}}</h5>
+            <!-- <div class="icons">
+                <i class="ri-delete-bin-4-fill" ></i>
+                <i class="ri-edit-line" ></i>
+            </div> -->
+            <div class="agentTakeover">
+                Agent TakeOver
+                <input type="checkbox" [(ngModel)]="users[userIndex].agentTakeover" (change)="agentTakeOver()" id="users[userIndex]._id">
+            </div>
+        </div>
+        <div id="chats" class="chats">
+            <div class="chat-filler"></div>
+            <ng-container  *ngFor="let item of messages;let i=index" key={i}>
+                <!-- <div class="date-show" *ngIf="i%2" >
+                    <h5>{{i%30}}-{{i%12}}-{{i%2000}}</h5>
+                </div> -->
+                <div class="incomingMsg" *ngIf="item.fromUser">
+                    {{item.text}}
+                    <div class="seen-info">
+                        {{item.timestamp | date:'shortTime'}}
+                    </div>
+                </div>
+                <div class="outgoingMsg" *ngIf="!item.fromUser">
+                   {{item.text}}
+                    <div class="seen-info">
+                        {{item.timestamp | date:'shortTime'}}
+                        <!-- <i class="ri-check-fill deliver"></i> -->
+                        <i class="ri-check-double-fill seen"></i>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="input-area" [ngClass] = "{'inputDisable' : users[userIndex].agentTakeover==false}">
+            <input type="text" [(ngModel)]="users[userIndex].input" (keyup.enter)="sendMessage()" placeholder="Type Message Here...">
+            <div class="sendBtn" (click)="sendMessage()">
+                <img src="../../../assets/icons/send.png" alt="" srcset="">
+            </div>
+        </div>
+       
+    </div>
+</div>

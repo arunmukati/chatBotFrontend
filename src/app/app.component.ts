@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChatService } from './services/chat-service.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Chatbot-Frontend';
+  constructor(private chatService: ChatService){}
 }

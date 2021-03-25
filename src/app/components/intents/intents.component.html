@@ -1,0 +1,139 @@
+<div class="intent overflow-y">
+    <div class="search">
+        <nav>
+            <h5>Intents</h5>
+            <div class="srch">
+                <input type="text" placeholder="Search" />
+                <div class="addbtn" (click)="editIntent = false;resetEditIntentValue()" data-toggle="modal"
+                    data-target="#addIntent">
+                    <span>+</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div *ngFor="let intent of intentsList; let i = index" class="rowIntent" key={i}>
+        <div class="intentlist">
+            <div class="lftborder"></div>
+            <div class="icons">
+                <!-- (click)="viewIntentExample(intent)" -->
+                <!-- data-toggle="collapse" [attr.data-target]="'#collapse' + i" [attr.aria-controls]="'collapse' + i" aria-expanded="true" -->
+                <i (click)="viewExampleIndex != i ? viewExampleIndex = i :viewExampleIndex= undefined"
+                    class="ri-eye-fill"></i>
+                <i class="ri-delete-bin-4-fill" (click)="deleteIntent(intent._id,i)"></i>
+                <i class="ri-edit-line" (click)="setEditIntentValue(intent)" data-toggle="modal"
+                    data-target="#addIntent"></i>
+            </div>
+            <div class="intentnam">
+                <div class="intnm">
+                    <small>User Intent</small>
+                    <h5>{{intent.name}}</h5>
+                </div>
+            </div>
+            <div class="intentCollapse" [ngClass]="{'show' : viewExampleIndex == i}">
+                <!-- (click)="setSelectedIntentId(intent._id,i)" -->
+                <!-- data-toggle="modal" data-target="#chooseResponse" -->
+                <div>
+                    <h4>Examples</h4>
+                    <div class="exampleList">
+                        <div *ngFor="let example of intent.examples" >
+                            <h5>{{example.exampleName}}</h5>
+                            <!-- <i class="ri-delete-bin-4-fill" (click)="deleteExample(intent._id,example.exampleId,i)"></i> -->
+                        </div>
+                    </div>
+                    <div class="addExample" (click)="addExampleValue.intentId = intent._id;" data-toggle="modal"
+                    data-target="#addExample">
+                        <i class="ri-add-line"></i>
+                        <h5>Add Example</h5>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div *ngIf="intent.responseId " class="intentlist" style="height: fit-content;">
+            <div class="icons">
+                <i (click)="deleteResponseToIntent(intent._id,i)" class="ri-delete-bin-4-fill"></i>
+                <i class="ri-edit-line" (click)="setSelectedIntentId(intent._id,i,intent.responseId._id)"
+                    data-toggle="modal" data-target="#chooseResponse"></i>
+            </div>
+            <div class="intnm">
+                <small>Bot Response</small>
+                <h5>{{intent.responseId.name}}</h5>
+            </div>
+        </div>
+        <div *ngIf="!intent.responseId" class="addResponse" (click)="setSelectedIntentId(intent._id,i)"
+            data-toggle="modal" data-target="#chooseResponse">
+            <i class="ri-add-line"></i>
+            <h5>Add Response</h5>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="chooseResponse" tabindex="-1" role="dialog" aria-labelledby="chooseResponseLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" id="closeAddResponse" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-head">
+                    Choose Response
+                </div>
+                <div class="modal-main-area">
+                    <ng-select [items]="responseList" [searchable]="true" bindLabel="name" bindValue="_id"
+                        [(ngModel)]="selectedResponseId" dropdownPosition='bottom' placeholder="Select Response"
+                        aria-label="searchBox" labelForId="name">
+                    </ng-select>
+                </div>
+                <button type="button" class="save-btn btn btn-primary" (click)="addResponseToIntent()">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addIntent" tabindex="-1" role="dialog" aria-labelledby="addIntentLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" id="closeAddIntent" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-head">
+                    {{editIntent ? 'Edit' : 'Add'}} Intent
+                </div>
+                <div class="modal-main-area">
+                    <input type="text" placeholder="Intent Name" [(ngModel)]="addIntentValue.name">
+                    <ng-select *ngIf="!editIntent" [items]="responseList" [searchable]="true" bindLabel="name"
+                        bindValue="_id" [(ngModel)]="addIntentValue.responseId" dropdownPosition='bottom'
+                        placeholder="Select Response" aria-label="searchBox" labelForId="name">
+                    </ng-select>
+                </div>
+                <button type="button" class="save-btn btn btn-primary"
+                    (click)="editIntent ? editIntentData() : addIntent()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addExample" tabindex="-1" role="dialog" aria-labelledby="addExampleLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" id="closeAddExample" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-head">
+                    <!-- {{editExample ? 'Edit' : 'Add'}} -->
+                    Add Example
+                </div>
+                <div class="modal-main-area">
+                    <input type="text" placeholder="Example Name" [(ngModel)]="addExampleValue.name">
+                </div>
+                <!-- editExample ? editExampleData() : -->
+                <button type="button" class="save-btn btn btn-primary"
+                
+                    (click)=" addExample()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="intent overflow-y">
+    <div class="search">
+        <nav>
+            <h5>Responses</h5>
+            <div class="srch">
+                <input type="text" placeholder="Search" />
+                <div class="addbtn" (click)="editResponse = false;resetEditResponseValue()" data-toggle="modal" data-target="#addResponse">
+                    <span>+</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+
+    <div *ngFor="let response of responseList; let i = index" class="rowIntent" key={i}>
+        <div class="intentlist">
+            <div class="lftborder"></div>
+            <div class="icons">
+                <i class="ri-delete-bin-4-fill" (click)="deleteResponse(response._id,i)"></i>
+                <i class="ri-edit-line" (click)="setEditResponseValue(response)" data-toggle="modal" data-target="#addResponse"></i>
+            </div>
+            <div class="intentnam">
+                <div class="intnm">
+                    <small >Response</small>
+                    <h5>{{response.name}}</h5>
+                </div>
+                <div class="intnm mt-2">
+                    <small >Message</small>
+                    <h5>{{response.text}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addResponse" tabindex="-1" role="dialog" aria-labelledby="addResponseLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" id="closeAddResponse" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-head">
+                    {{editResponse ? 'Edit' : 'Add'}} Response
+                </div>
+                <div class="modal-main-area">
+                    <input type="text" placeholder="Response Name" [(ngModel)]="addResponseValue.name">
+                    <input type="text" name="" id="" placeholder="Message" [(ngModel)]="addResponseValue.text">
+                </div>
+                <button type="button" class="save-btn btn btn-primary" (click)="editResponse ? editResponseData() : addResponse()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
